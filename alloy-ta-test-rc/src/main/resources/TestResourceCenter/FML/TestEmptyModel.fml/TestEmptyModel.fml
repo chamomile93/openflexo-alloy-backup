@@ -1,0 +1,3 @@
+@Author("chamomile93")
+@URI("http://openflexo.org/alloy-test/FML/TestEmptyModel.fml")
+model EmptyMapping {}

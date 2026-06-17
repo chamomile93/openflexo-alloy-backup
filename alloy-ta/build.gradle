@@ -1,0 +1,24 @@
+dependencies {
+  // openflexo dep
+  implementation flexoFoundation()
+  implementation flexoOntology()
+
+  // external dep
+  // Define here your dependancies
+  //implementation 'my.library:artefact-name:1.0.0'
+
+  implementation group: 'fr.inria.gforge.spoon', name: 'spoon-core', version: '9.1.0'
+  implementation 'org.alloytools:org.alloytools.alloy.dist:6.2.0'
+
+  // testing dep
+  testImplementation testUtils()
+  testImplementation flexoFoundationTest()
+
+  // A particular resource center can be defined here
+  // If it always required to be present at run-time
+  //runtimeOnly project(':alloy-ta-rc')
+
+  // Test resource center, if required
+  testRuntimeOnly project(':alloy-ta-test-rc')
+}
+

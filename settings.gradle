@@ -1,0 +1,4 @@
+include 'alloy-ta',
+    // 'alloy-ta-ui',
+    'alloy-ta-test',
+    'alloy-ta-test-rc'

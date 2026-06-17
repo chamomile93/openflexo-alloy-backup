@@ -1,0 +1,35 @@
+
+
+---------------
+
+".als" file are "read" 
+	"first" with TechnologyAdapter.isIgnorable()
+	"second" with ResourceFactory.isValidArtefact()
+
+
+---------------
+
+Thread[Test worker,5,main]          INFO    25/06/26 10:35:14,395  activateRequiredTechnologies() for org.openflexo.foundation.fml.parser.VirtualModelInfoExplorer@54d35ed5 usedModelSlots: [][org.openflexo.foundation.fml.parser.VirtualModelInfoExplorer.activateRequiredTechnologies]
+
+----------------
+
+Unexpected NoSuchMethodException while initializing ResourceFactory AlloyResourceFactory            [org.openflexo.foundation.technologyadapter.TechnologyAdapter.initResourceFactories]
+    java.lang.NoSuchMethodException: org.openflexo.ta.alloy.rm.AlloyModelResourceFactory.<init>()
+    	at java.base/java.lang.Class.getConstructor0(Class.java:3587)
+    	at java.base/java.lang.Class.getConstructor(Class.java:2273)
+    	at org.openflexo.foundation.technologyadapter.TechnologyAdapter.initResourceFactories(TechnologyAdapter.java:555)
+    	at org.openflexo.foundation.technologyadapter.TechnologyAdapter.activate(TechnologyAdapter.java:208)
+    	at org.openflexo.foundation.FlexoServiceManager.activateTechnologyAdapter(FlexoServiceManager.java:139)
+    	at org.openflexo.foundation.test.OpenflexoTestCase.instanciateTestServiceManager(OpenflexoTestCase.java:287)
+    	at org.openflexo.ta.alloy.model.TestLoadAlloyModel.setupInitializeServiceManagerWithAlloyTechnologyAdapterIsSuccessful(TestLoadAlloyModel.java:79)
+
+Unexpected NoSuchMethodException while initializing ResourceFactory AlloyCompilationUnitResourceFactory[org.openflexo.foundation.technologyadapter.TechnologyAdapter.initResourceFactories]
+    java.lang.NoSuchMethodException: org.openflexo.ta.alloy.rm.AlloyCompilationUnitResourceFactory.<init>()
+    	at java.base/java.lang.Class.getConstructor0(Class.java:3587)
+    	at java.base/java.lang.Class.getConstructor(Class.java:2273)
+    	at org.openflexo.foundation.technologyadapter.TechnologyAdapter.initResourceFactories(TechnologyAdapter.java:555)
+    	at org.openflexo.foundation.technologyadapter.TechnologyAdapter.activate(TechnologyAdapter.java:208)
+    	at org.openflexo.foundation.FlexoServiceManager.activateTechnologyAdapter(FlexoServiceManager.java:139)
+    	at org.openflexo.foundation.test.OpenflexoTestCase.instanciateTestServiceManager(OpenflexoTestCase.java:287)
+    	at org.openflexo.ta.alloy.model.TestLoadAlloyModel.setupInitializeServiceManagerWithAlloyTechnologyAdapterIsSuccessful(TestLoadAlloyModel.java:79)
+

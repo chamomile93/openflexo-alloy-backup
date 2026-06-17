@@ -1,0 +1,53 @@
+//use org.openflexo.ta.alloy.AlloyModelSlot;
+//use org.openflexo.ta.pamela.PamelaModelSlot; 
+
+//import org.openflexo.ta.alloy.model.AlloyModel;
+//import org.openflexo.ta.pamela.model.PamelaModel;
+
+/** DECLARING this URI seems mandatory for the implementation to be able to "load" this file as a "Resource"
+* TODO document when testing, don't forget to "clean test" otherwise only testing a "cached" (jar)? build previously 
+ */
+@URI("http://openflexo.org/alloy-test/FML/TestAlloyVM.fml")
+/*And @VirtualModel annotation does not seems to work
+*/
+//VirtualModel(uri="http://openflexo.org/alloy-test/FML/TestAlloyVM.fml")
+@Author("chamomile93")
+public model TestAlloyVM {
+
+	//AlloyModel alloyModel with AlloyModelSlot();
+/*	
+	create(required Resource<AlloyModel> aAlloyModelResource) {
+		// "parameters" provient d'ou ?
+		connect alloyModel = parameters.aAlloyModelResource.resourceData;
+		log "alloyModel: " + alloyModel;
+	}
+	
+	//TODO a constructor with both ModelSlots
+	// TODO one VM for one MS + one VM for those 2 VM ?
+	create(required Resource<AlloyModel> aAlloyModelResource, required Resource<PamelaModel> aPamelaModelResource) {
+        log "Instantiating a VirtualModel";
+        connect alloyModel using
+        parameters.aAlloyModelResource;
+        connect pamelaModel using
+        parameters.aPamelaModelResource;
+	}
+	
+	
+	delete () {}
+	
+	// TODO the FlexoConcept that need to be instanciated
+    public concept CyberContract {
+    //...
+    }	
+	
+	public String getModuleName() {
+    	return model.getModuleName();
+	}
+	
+	public void addSignature(String name) {
+		AlloyModel model = alloyModel.createObjectSignature(name);
+		model.createSignature();
+		log "created a signature : " name;
+	}
+	*/
+}

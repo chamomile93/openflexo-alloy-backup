@@ -1,0 +1,19 @@
+dependencies {
+    implementation project(':alloy-ta')
+    implementation flexoFoundation()
+    implementation flexoOntology()
+
+    implementation testUtils()
+    implementation flexoFoundationTest()
+
+	// testing dep
+    testImplementation flexoFoundation()
+    testImplementation flexoFoundationTest()
+    testImplementation fmlCli()
+    testImplementation fmlCliTest()
+
+    // Test resource center
+    testRuntimeOnly project(':alloy-ta-test-rc')
+    implementation 'org.alloytools:org.alloytools.alloy.dist:6.2.0' 
+    testImplementation 'org.alloytools:org.alloytools.alloy.dist:6.2.0'  
+}

@@ -1,0 +1,20 @@
+// TODO FileModelSlot is missing in my workspace
+//use org.openflexo.ta.java.FileModelSlot as JAVA;
+// TODO AlloyModelSlot is missing in my workspace
+//use org.openflexo.ta.java.AlloyModelSlot as ALLOY;
+// TODO PamelaModelSlot is missing in my workspace
+//use org.openflexo.ta.java.PamelaModelSlot as PAMELA;
+// TODO RepositoryModelSlot is missing in my workspace
+//use org.openflexo.ta.java.RepositoryModelSlot as JAVA_REPO;
+
+model CyberContractMapping {
+// TODO idf why this is not "interpreted" when the file is "included" in the
+// "ResourceCenter" and should raise an issue ? it might be design or missing
+// feature or failure in this codebase
+  AlloySourceRepository alloySources with
+    ALLOY::AlloyModelSlot();
+  PamelaSourceRepository pamelaSources with
+    PAMELA::PamelaModelSlot();
+  SourceRepository javaSources with
+    JAVA_REPO::RepositoryModelSlot(jdk="Java11+");
+}

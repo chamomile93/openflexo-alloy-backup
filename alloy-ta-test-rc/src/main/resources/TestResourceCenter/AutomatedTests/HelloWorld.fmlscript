@@ -1,0 +1,22 @@
+service ResourceCenterService status;
+resources;
+context;
+
+log "========== CHARGEMENT  VIRTUAL MODELS ==========";
+
+virtualModel2 = load -r ["http://openflexo.org/alloy-test/FML/TestAlloyVM.fml"];
+assert virtualModel2 != null;
+resources;
+context;
+//log "Pretty-print of "+virtualModel2;
+//log virtualModel2.fMLPrettyPrint;
+
+log "========== VIRTUAL MODEL " + virtualModel2 + " CHARGER ==========";
+
+// TODO idf why "alloy-test" seems necessary
+virtualModel1 = load -r ["http://openflexo.org/alloy-test/FML/TestEmptyModel.fml"];
+assert virtualModel1 != null;
+resources;
+context;
+
+log "========== VIRTUAL MODEL " + virtualModel1 + " CHARGER ==========";
