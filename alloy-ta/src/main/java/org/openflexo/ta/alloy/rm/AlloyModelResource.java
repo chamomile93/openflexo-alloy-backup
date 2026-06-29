@@ -22,149 +22,146 @@ import java.util.logging.Logger;
 
 /**
  * Supposed to be a model of an Alloy Resource
- * 
+ *
  * @author chamomile93
  *
  */
 @ModelEntity
 @ImplementationClass(AlloyModelResource.AlloyModelResourceImpl.class)
-public interface AlloyModelResource extends FlexoModelResource<AlloyModel,
-        AlloyMetaModel,
-		AlloyTechnologyAdapter, AlloyTechnologyAdapter>,
-		TechnologyAdapterResource<AlloyModel, AlloyTechnologyAdapter> {
+public interface AlloyModelResource extends FlexoModelResource<AlloyModel, AlloyMetaModel, AlloyTechnologyAdapter, AlloyTechnologyAdapter>, TechnologyAdapterResource<AlloyModel, AlloyTechnologyAdapter> {
 
-	public static final String TECHNOLOGY_CONTEXT_MANAGER = "technologyContextManager";
-	public static final String ALS_EXTENSION = AlloyModelResourceFactory.ALS_FILE_EXTENSION;
+    String TECHNOLOGY_CONTEXT_MANAGER = "technologyContextManager";
+    String ALS_EXTENSION = AlloyModelResourceFactory.ALS_FILE_EXTENSION;
 
-	AlloyModelResource getAlloyResource();
+    AlloyModelResource getAlloyResource(
+            //TODO return the org.alloytool.Module ?
+    );
 
-	@Override
-	@Getter(value = TECHNOLOGY_CONTEXT_MANAGER, ignoreType = true)
-	public AlloyTechnologyContextManager getTechnologyContextManager();
+    @Override
+    @Getter(value = TECHNOLOGY_CONTEXT_MANAGER, ignoreType = true)
+    AlloyTechnologyContextManager getTechnologyContextManager();
 
-	@Setter(TECHNOLOGY_CONTEXT_MANAGER)
-	public void setTechnologyContextManager(AlloyTechnologyContextManager technologyContextManager);
+    @Setter(TECHNOLOGY_CONTEXT_MANAGER)
+    void setTechnologyContextManager(AlloyTechnologyContextManager technologyContextManager);
 
-	abstract class AlloyModelResourceImpl extends FlexoResourceImpl<AlloyModel> implements AlloyModelResource {
+    abstract class AlloyModelResourceImpl extends FlexoResourceImpl<AlloyModel> implements AlloyModelResource {
 
-		private static final Logger logger =
-				Logger.getLogger(AlloyModelResource.class.getPackage().getName());
+        private static final Logger logger = Logger.getLogger(AlloyModelResource.class.getPackage().getName());
 
-		/** Model Resource. */
-		protected AlloyModelResource modelResource;
+        /**
+         * Model Resource.
+         */
+        protected AlloyModelResource modelResource;
 
-		/**
-		 * Load the &quot;real&quot; load resource data of this resource.
-		 *
-		 * @return the resource data.
-		 * @throws ResourceLoadingCancelledException
-		 * @throws FileNotFoundException
-		 * @throws FlexoException
-		 */
-		@Override
-		public AlloyModel loadResourceData() throws ResourceLoadingCancelledException, FileNotFoundException, FlexoException {
-			AlloyModelConverter converter = new AlloyModelConverter();
-			AlloyModel resourceData;
-			//TODO do we need a metamodel ?
+        /**
+         * Load the &quot;real&quot; load resource data of this resource.
+         *
+         * @return the resource data.
+         * @throws ResourceLoadingCancelledException
+         * @throws FileNotFoundException
+         * @throws FlexoException
+         */
+        @Override
+        public AlloyModel loadResourceData() throws ResourceLoadingCancelledException, FileNotFoundException, FlexoException {
+            AlloyModelConverter converter = new AlloyModelConverter();
+            AlloyModel resourceData;
+            //TODO do we need a metamodel ?
 //			FlexoMetaModelResource<AlloyModel, AlloyMetaModel, AlloyTechnologyAdapter> metaModelResource = getMetaModelResource();
 //			AlloyMetaModel metaModelData = metaModelResource.getMetaModelData();
-			AlloyModelResource alloyModelResource = getAlloyResource();
-			resourceData =
-					converter.convertModel(alloyModelResource);
-			setResourceData(resourceData);
-			resourceData.setResource(this);
-			return resourceData;
-		}
+            AlloyModelResource alloyModelResource = getAlloyResource();
+            resourceData = converter.convertModel(alloyModelResource);
+            setResourceData(resourceData);
+            resourceData.setResource(this);
+            return resourceData;
+        }
 
-		@Override
-		public FlexoMetaModelResource<AlloyModel, AlloyMetaModel,
-				AlloyTechnologyAdapter> getMetaModelResource() {
-			logger.warning("FlexoMetaModelResource() not fully implemented in" +
-					" AlloyModelResource");
-			// TODO: implement this and extends cardinality
+        @Override
+        public FlexoMetaModelResource<AlloyModel, AlloyMetaModel, AlloyTechnologyAdapter> getMetaModelResource() {
+            logger.warning("FlexoMetaModelResource() not fully implemented in" + " AlloyModelResource");
+            // TODO: implement this and extends cardinality
 
-			return getTechnologyContextManager().getMetaModel(new File(modelResource.getURI()));
-		}
+            return getTechnologyContextManager().getMetaModel(new File(modelResource.getURI()));
+        }
 
 
-		/**
-		 * Save the &quot;real&quot; resource data of this resource.
-		 *
-		 * @throws SaveResourceException
-		 */
-		@Override
-		public void save() throws SaveResourceException {
-			AlloyModel resourceData;
-			try {
-				resourceData = getResourceData();
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-				throw new SaveResourceException(getIODelegate());
-			} catch (ResourceLoadingCancelledException e) {
-				e.printStackTrace();
-				throw new SaveResourceException(getIODelegate());
-			} catch (FlexoException e) {
-				e.printStackTrace();
-				throw new SaveResourceException(getIODelegate());
-			}
+        /**
+         * Save the &quot;real&quot; resource data of this resource.
+         *
+         * @throws SaveResourceException
+         */
+        @Override
+        public void save() throws SaveResourceException {
+            AlloyModel resourceData;
+            try {
+                resourceData = getResourceData();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+                throw new SaveResourceException(getIODelegate());
+            } catch (ResourceLoadingCancelledException e) {
+                e.printStackTrace();
+                throw new SaveResourceException(getIODelegate());
+            } catch (FlexoException e) {
+                e.printStackTrace();
+                throw new SaveResourceException(getIODelegate());
+            }
 
-			if (!getIODelegate().hasWritePermission()) {
-				if (logger.isLoggable(Level.WARNING)) {
-					// logger.warning("Permission denied : " + getFile().getAbsolutePath());
-					logger.warning("Permission denied : " + getIODelegate().toString());
-				}
-				throw new SaveResourcePermissionDeniedException(getIODelegate());
-			}
-			if (resourceData != null) {
-				FileWritingLock lock = getIODelegate().willWriteOnDisk();
-				writeToFile();
-				getIODelegate().hasWrittenOnDisk(lock);
-				notifyResourceStatusChanged();
-				resourceData.clearIsModified(false);
-				if (logger.isLoggable(Level.INFO)) {
-					logger.info("Succeeding to save Resource " + getURI() + " : " + getIODelegate().toString());
-				}
-			}
-		}
+            if (!getIODelegate().hasWritePermission()) {
+                if (logger.isLoggable(Level.WARNING)) {
+                    // logger.warning("Permission denied : " + getFile().getAbsolutePath());
+                    logger.warning("Permission denied : " + getIODelegate().toString());
+                }
+                throw new SaveResourcePermissionDeniedException(getIODelegate());
+            }
+            if (resourceData != null) {
+                FileWritingLock lock = getIODelegate().willWriteOnDisk();
+                writeToFile();
+                getIODelegate().hasWrittenOnDisk(lock);
+                notifyResourceStatusChanged();
+                resourceData.clearIsModified(false);
+                if (logger.isLoggable(Level.INFO)) {
+                    logger.info("Succeeding to save Resource " + getURI() + " : " + getIODelegate().toString());
+                }
+            }
+        }
 
-		@Override
-		public AlloyModel getModelData() {
-			try {
-				return getResourceData();
-			} catch (ResourceLoadingCancelledException e) {
-				e.printStackTrace();
-				return null;
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-				return null;
-			} catch (FlexoException e) {
-				e.printStackTrace();
-				return null;
-			}
-		}
+        @Override
+        public AlloyModel getModelData() {
+            try {
+                return getResourceData();
+            } catch (ResourceLoadingCancelledException e) {
+                e.printStackTrace();
+                return null;
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+                return null;
+            } catch (FlexoException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
 
-		@Override
-		public AlloyModel getModel() {
-			return getModelData();
-		}
+        @Override
+        public AlloyModel getModel() {
+            return getModelData();
+        }
 
-		/**
-		 * Write file.
-		 *
-		 * @throws SaveResourceException
-		 */
-		private void writeToFile() throws SaveResourceException {
+        /**
+         * Write file.
+         *
+         * @throws SaveResourceException
+         */
+        private void writeToFile() throws SaveResourceException {
             getAlloyResource().save();
             logger.info("Wrote " + getIODelegate().toString());
         }
 
-		/**
-		 * Getter of Alloy Model Resource.
-		 *
-		 * @return the modelResource value
-		 */
-		@Override
-		public AlloyModelResource getAlloyResource() {
+        /**
+         * Getter of Alloy Model Resource.
+         *
+         * @return the modelResource value
+         */
+        @Override
+        public AlloyModelResource getAlloyResource() {
 //			if (modelResource == null) {
 //				AlloyMetaModelResource mmResource =
 //						(AlloyMetaModelResource) getMetaModelResource();
@@ -191,13 +188,13 @@ public interface AlloyModelResource extends FlexoModelResource<AlloyModel,
 //				}
 //				modelResource =
 //						mmResource.createAlloyModelResource(getIODelegate());
-			return modelResource;
-		}
+            return modelResource;
+        }
 
-		@Override
-		public Class<AlloyModel> getResourceDataClass() {
-			return AlloyModel.class;
-		}
+        @Override
+        public Class<AlloyModel> getResourceDataClass() {
+            return AlloyModel.class;
+        }
 //
 //		/**
 //		 * Generic method used to retrieve in this resource an object with supplied objectIdentifier, userIdentifier, and type identifier<br>
@@ -311,11 +308,11 @@ public interface AlloyModelResource extends FlexoModelResource<AlloyModel,
 //			return metaModelResourceURI;
 //		}
 
-		@Override
-		public AlloyTechnologyContextManager getTechnologyContextManager() {
-			return (AlloyTechnologyContextManager) performSuperGetter(TECHNOLOGY_CONTEXT_MANAGER);
-		}
+        @Override
+        public AlloyTechnologyContextManager getTechnologyContextManager() {
+            return (AlloyTechnologyContextManager) performSuperGetter(TECHNOLOGY_CONTEXT_MANAGER);
+        }
 
-	}
+    }
 
 }

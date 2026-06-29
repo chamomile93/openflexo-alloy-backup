@@ -34,8 +34,13 @@ public class AlloyModelResourceFactory extends TechnologySpecificFlexoResourceFa
 
     @Override
     public AlloyModel makeEmptyResourceData(AlloyModelResource resource) {
+        // TODO I seemed to have been biased by the EMF implementation ?
+        // another way to do might have been like the OWL implementation ?
+        /*
         AlloyModelConverter converter = new AlloyModelConverter();
         return converter.convertModel(resource.getMetaModelResource().getMetaModelData(), resource.getAlloyResource());
+         */
+        return AlloyModel.createEmptyAlloyModel();
     }
 
     @Override
