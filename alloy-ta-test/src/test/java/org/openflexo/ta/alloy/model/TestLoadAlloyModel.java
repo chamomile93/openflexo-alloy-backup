@@ -127,75 +127,7 @@ public class TestLoadAlloyModel extends AbstractAlloyTest {
                 log("resource class simpleName= " + flexoResource.getResourceDataClass().getSimpleName());
                 log("flexoResource= " + flexoResource);
                 assertNotNull(flexoResource);
-/*
-TODO idf why in the trace below, the "als" resources are printed with ".null
- .null" why is that ?
-Thread[Test worker,5,main]          INFO    26/06/26 15:52:19,048
-******************************************************************************
-FlexoResource registered > http://openflexo.org/alloy-test/FML/TestEmptyModel.fml
-******************************************************************************
-[org.openflexo.foundation.test.OpenflexoTestCase.log]
-Thread[Test worker,5,main]          INFO    26/06/26 15:52:19,049
-******************************************************************************
-FlexoResource registered > http://www.openflexo.org/test/alloy/TestResourceCenter/FML/TestCyberContractMapping.fml
-******************************************************************************
-[org.openflexo.foundation.test.OpenflexoTestCase.log]
-Thread[Test worker,5,main]          INFO    26/06/26 15:52:19,049
-******************************************************************************
-FlexoResource registered > http://openflexo.org/alloy-test/FML/TestAlloyVM.fml
-******************************************************************************
-[org.openflexo.foundation.test.OpenflexoTestCase.log]
-Thread[Test worker,5,main]          INFO    26/06/26 15:52:19,050
-******************************************************************************
-FlexoResource registered > http://www.openflexo.org/test/alloy/TestResourceCenter/AlloyCode/SecurityPattern/MyAuthenticator.als
-******************************************************************************
-[org.openflexo.foundation.test.OpenflexoTestCase.log]
-Thread[Test worker,5,main]          INFO    26/06/26 15:52:19,050
-******************************************************************************
-FlexoResource registered > http://www.openflexo.org/test/alloy/TestResourceCenter/AlloyCode/SecurityPattern/MySubject.als
-******************************************************************************
-[org.openflexo.foundation.test.OpenflexoTestCase.log]
-Thread[Test worker,5,main]          INFO    26/06/26 15:52:19,050
-******************************************************************************
-FlexoResource registered > http://www.openflexo.org/test/alloy/TestResourceCenter/AlloyCode/HelloWorld.als
-******************************************************************************
-[org.openflexo.foundation.test.OpenflexoTestCase.log]
-Thread[Test worker,5,main]          INFO    26/06/26 15:52:19,051
-******************************************************************************
-testAlloyResourceLoading()
-******************************************************************************
-[org.openflexo.foundation.test.OpenflexoTestCase.log]
-Thread[Test worker,5,main]          INFO    26/06/26 15:52:19,051
-******************************************************************************
-flexoResource= CompilationUnitResource@2a5d2041/TestEmptyModel
-******************************************************************************
-[org.openflexo.foundation.test.OpenflexoTestCase.log]
-Thread[Test worker,5,main]          INFO    26/06/26 15:52:19,052
-******************************************************************************
-flexoResource= CompilationUnitResource@1dd247b/TestCyberContractMapping
-******************************************************************************
-[org.openflexo.foundation.test.OpenflexoTestCase.log]
-Thread[Test worker,5,main]          INFO    26/06/26 15:52:19,052
-******************************************************************************
-flexoResource= CompilationUnitResource@19d76106/TestAlloyVM
-******************************************************************************
-[org.openflexo.foundation.test.OpenflexoTestCase.log]
-Thread[Test worker,5,main]          INFO    26/06/26 15:52:19,052
-******************************************************************************
-flexoResource= AlloyModelResource$AlloyResourceImpl_$$_jvstc29_e.http://www.openflexo.org/test/alloy/TestResourceCenter/AlloyCode/SecurityPattern/MySubject.als.null.null
-******************************************************************************
-[org.openflexo.foundation.test.OpenflexoTestCase.log]
-Thread[Test worker,5,main]          INFO    26/06/26 15:52:19,053
-******************************************************************************
-flexoResource= AlloyModelResource$AlloyResourceImpl_$$_jvstc29_e.http://www.openflexo.org/test/alloy/TestResourceCenter/AlloyCode/HelloWorld.als.null.null
-******************************************************************************
-[org.openflexo.foundation.test.OpenflexoTestCase.log]
-Thread[Test worker,5,main]          INFO    26/06/26 15:52:19,054
-******************************************************************************
-flexoResource= AlloyModelResource$AlloyResourceImpl_$$_jvstc29_e.http://www.openflexo.org/test/alloy/TestResourceCenter/AlloyCode/SecurityPattern/MyAuthenticator.als.null.null
-******************************************************************************
-[org.openflexo.foundation.test.OpenflexoTestCase.log]
-*/
+                //TODO check the traces for "als" resources for ".null.null"
             }
         }
     }
@@ -316,6 +248,22 @@ flexoResource= AlloyModelResource$AlloyResourceImpl_$$_jvstc29_e.http://www.open
             basicModel = helloWorldRes.loadResourceData();
             assertNotNull(basicModel);
 
+            /*
+             * the following might explain why logged resource uri contains ".null.null"
+             * helloWorldRes.toString(): 
+AlloyModelResource[URI=null
+alloyModelResource=null
+container=null
+flexoIODelegate=InJarIODelegate
+name=HelloWorld.als
+resourceCenter=JarResourceCenter
+revision=null
+technologyAdapter=org.openflexo.ta.alloy.AlloyTechnologyAdapter@52d97ab6
+technologyContextManager=org.openflexo.ta.alloy.AlloyTechnologyContextManager@552ffa44
+version=null
+] 
+             */
+            
             //TODO not sure this makes sense, probably need to load;get
             definitionsList = basicModel.getIndividuals();
             assertNotNull(definitionsList);
