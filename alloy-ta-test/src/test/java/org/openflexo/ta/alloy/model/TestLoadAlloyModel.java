@@ -264,7 +264,7 @@ flexoResource= AlloyModelResource$AlloyResourceImpl_$$_jvstc29_e.http://www.open
     }
 
     @Test
-    public void testLoadOneAlloyResourceShouldSucceed() {
+    public void testLoadOneAlloyResourceSucceed() {
         AlloyModelResource helloWorldAlloyModelResourceFromServiceManager = (AlloyModelResource) serviceManager.getResourceManager().getResource(HELLO_WORLD_ALLOY_URI);
         assertNotNull(helloWorldAlloyModelResourceFromServiceManager);
 
@@ -280,7 +280,7 @@ flexoResource= AlloyModelResource$AlloyResourceImpl_$$_jvstc29_e.http://www.open
     }
 
     @Test
-    public void testLoadAllResourceShouldSucceed() {
+    public void testLoadAllResourceSucceed() {
         //GIVEN
         rcService = serviceManager.getResourceCenterService();
         alloyResourceCenter = rcService.getResourceCenters().get(0);
@@ -302,29 +302,6 @@ flexoResource= AlloyModelResource$AlloyResourceImpl_$$_jvstc29_e.http://www.open
             log("URI of document: " + alloyModelResource.getURI());
             log("ResourceData: " + alloyModelResource.getLoadedResourceData());
         }
-/* TODO seem to have two baseURI for Resources in this examples we care about
-From trace log I got :
-* http://www.openflexo.org/test/alloy
-	* http://www.openflexo.org/test/alloy/TestResourceCenter/FML/TestCyberContractMapping.fml
-	* http://www.openflexo.org/test/alloy/TestResourceCenter/AlloyCode/HelloWorld.als
-* http://openflexo.org/alloy-test
-	* http://openflexo.org/alloy-test/FML/TestAlloyVM.fml
-*/
-        // TODO idf why the baseURI is incorrect
-        //alloyResourceCenter = serviceManager.getResourceCenterService()
-        //	.getFlexoResourceCenter("http://openflexo.org/alloy-test");
-        //alloyResourceCenter = serviceManager.getResourceCenterService()
-        //	.getFlexoResourceCenter("http://www.openflexo" +
-        //			".org/test/alloy/TestResourceCenter");
-        //alloyResourceCenter = serviceManager.getResourceCenterService()
-        //	.getFlexoResourceCenter("http://www.openflexo" +
-        //			".org/test/alloy/TestResourceCenter/AlloyCode");
-        //alloyResourceCenter = serviceManager.getResourceCenterService()
-        //		.getFlexoResourceCenter("http://www.openflexo" +
-        //				".org/test/alloy/TestResourceCenter/AlloyCode" +
-        //				"/HelloWorld" +
-        //				".als");
-        //assertNotNull(alloyResourceCenter);
     }
 
     @Test
