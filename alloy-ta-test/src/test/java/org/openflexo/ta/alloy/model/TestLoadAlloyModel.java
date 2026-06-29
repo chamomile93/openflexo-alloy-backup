@@ -332,9 +332,63 @@ From trace log I got :
         AlloyModelResource helloWorldRes = (AlloyModelResource) serviceManager.getResourceManager().getResource(HELLO_WORLD_ALLOY_URI);
 
         AlloyModel basicModel;
+        List<? extends IFlexoOntologyIndividual<AlloyTechnologyAdapter>> definitionsList;
+        AlloyObjectIndividual definition;
 
         try {
+            basicModel = helloWorldRes.loadResourceData();
+            assertNotNull(basicModel);
+
+            //TODO not sure this makes sense, probably need to load;get
+            definitionsList = basicModel.getIndividuals();
+            assertNotNull(definitionsList);
+            //TODO FAIL
+            assertEquals(EXPECTED_ONE_INDIVIDUAL_NUMBER, definitionsList.size());
+            definition = (AlloyObjectIndividual) definitionsList.get(0);
+            log("individual definition = " + definition);
+            assertNotNull(definition);
+
+            //TODO this assumes "load", which one ?
+            basicModel = helloWorldRes.getLoadedResourceData();
+            assertNotNull(basicModel);
+            definitionsList = basicModel.getIndividuals();
+            assertNotNull(definitionsList);
+            //TODO FAIL
+            assertEquals(EXPECTED_ONE_INDIVIDUAL_NUMBER, definitionsList.size());
+            definition = (AlloyObjectIndividual) definitionsList.get(0);
+            log("individual definition = " + definition);
+            assertNotNull(definition);
+
             basicModel = helloWorldRes.getResourceData();
+            assertNotNull(basicModel);
+            definitionsList = basicModel.getIndividuals();
+            assertNotNull(definitionsList);
+            //TODO FAIL
+            assertEquals(EXPECTED_ONE_INDIVIDUAL_NUMBER, definitionsList.size());
+            definition = (AlloyObjectIndividual) definitionsList.get(0);
+            log("individual definition = " + definition);
+            assertNotNull(definition);
+
+            basicModel = helloWorldRes.getModelData();
+            assertNotNull(basicModel);
+            definitionsList = basicModel.getIndividuals();
+            assertNotNull(definitionsList);
+            //TODO FAIL
+            assertEquals(EXPECTED_ONE_INDIVIDUAL_NUMBER, definitionsList.size());
+            definition = (AlloyObjectIndividual) definitionsList.get(0);
+            log("individual definition = " + definition);
+            assertNotNull(definition);
+
+            basicModel = helloWorldRes.getModel();
+            assertNotNull(basicModel);
+            definitionsList = basicModel.getIndividuals();
+            assertNotNull(definitionsList);
+            //TODO FAIL
+            assertEquals(EXPECTED_ONE_INDIVIDUAL_NUMBER, definitionsList.size());
+            definition = (AlloyObjectIndividual) definitionsList.get(0);
+            log("individual definition = " + definition);
+            assertNotNull(definition);
+
         } catch (ResourceLoadingCancelledException e) {
             throw new RuntimeException(e);
         } catch (FileNotFoundException e) {
@@ -343,17 +397,7 @@ From trace log I got :
             throw new RuntimeException(e);
         }
 
-        List<? extends IFlexoOntologyIndividual<AlloyTechnologyAdapter>> definitionsList = basicModel.getIndividuals();
-
-        assertNotNull(definitionsList);
-        //TODO FAIL
-        assertEquals(EXPECTED_ONE_INDIVIDUAL_NUMBER, definitionsList.size());
-
-        AlloyObjectIndividual definition =
-                (AlloyObjectIndividual) definitionsList.get(0);
-        log("individual definition = " + definition);
-        assertNotNull(definition);
-        //TODO
+        //TODO more test relating "reading"
     }
 
     @Test

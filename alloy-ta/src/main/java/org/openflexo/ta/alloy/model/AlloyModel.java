@@ -12,6 +12,7 @@ import org.openflexo.ta.alloy.model.io.AlloyModelConverter;
 import org.openflexo.ta.alloy.rm.AlloyModelResource;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
@@ -32,6 +33,14 @@ public class AlloyModel extends FlexoOntologyObjectImpl<AlloyTechnologyAdapter> 
     protected AlloyModelConverter converter;
     CompModule resource;
     boolean isLoaded;
+
+    public AlloyModel(AlloyModelConverter converter,
+                      AlloyModelResource resource) {
+        this.alloyMetaModel = null;
+        this.converter = converter;
+        //TODO might do smth with CompModule.parseEverythingFromFile(...,URI);
+        this.alloyModelResource = resource;
+    }
 
     public AlloyModel(AlloyModelConverter converter, CompModule resource) {
         this.alloyMetaModel = null;
@@ -453,8 +462,9 @@ public class AlloyModel extends FlexoOntologyObjectImpl<AlloyTechnologyAdapter> 
     @Override
     public List<? extends IFlexoOntologyIndividual<AlloyTechnologyAdapter>> getIndividuals() {
         List<IFlexoOntologyIndividual<AlloyTechnologyAdapter>> result = new ArrayList<>();
-        // TODO seems needed to "get" "data" from "source files"
-        //result.addAll(converter.getIndividuals().values());
+        //TODO idf why removing the generic from "AlloyObjectIndividual" made
+        // the type compatible; idf why adding the generic made it incompatible
+        result.addAll(converter.getIndividuals().values());
         return Collections.unmodifiableList(result);
     }
 

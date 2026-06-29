@@ -40,9 +40,11 @@
 
 package org.openflexo.ta.alloy.model.io;
 
+import edu.mit.csail.sdg.parser.CompModule;
 import org.openflexo.ta.alloy.metamodel.AlloyMetaModel;
 import org.openflexo.ta.alloy.model.AlloyModel;
 import org.openflexo.ta.alloy.model.AlloyObjectIndividual;
+import org.openflexo.ta.alloy.rm.AlloyModelResource;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -61,7 +63,7 @@ public class AlloyModelConverter {
 	/** Builder. */
 	protected AlloyModelBuilder builder = new AlloyModelBuilder();
 	/** Concepts. */
-	protected final Map<Object, AlloyObjectIndividual> individuals =
+	protected final Map<CompModule, AlloyObjectIndividual> individuals =
 			new HashMap<>();
 
 	/**
@@ -77,25 +79,8 @@ public class AlloyModelConverter {
 	 * @return
 	 * @throws IOException
 	 */
-	public AlloyModel convertModel(Object aResource) {
-
-		AlloyModel model = builder.buildModel(this, aResource);
-		return model;
-	}
-
-	/**
-	 * Convert a Resource into a Model with MetaModel support.
-	 * 
-	 * @param metaModel
-	 * @param aResource
-	 * @return
-	 * @throws IOException
-	 */
-	public AlloyModel convertModel(AlloyMetaModel metaModel,
-                                   Object aResource) {
-
-		AlloyModel model = builder.buildModel(metaModel, this, aResource);
-		return model;
+	public AlloyModel convertModel(AlloyModelResource aResource) {
+        return builder.buildModel(this, aResource);
 	}
 
 	/**
@@ -103,7 +88,7 @@ public class AlloyModelConverter {
 	 *
 	 * @return the individuals value
 	 */
-	public Map<Object, AlloyObjectIndividual> getIndividuals() {
+	public Map<CompModule, AlloyObjectIndividual> getIndividuals() {
 		return individuals;
 	}
 }

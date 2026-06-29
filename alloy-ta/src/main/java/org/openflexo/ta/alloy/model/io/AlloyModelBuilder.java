@@ -40,8 +40,10 @@
 
 package org.openflexo.ta.alloy.model.io;
 
+import edu.mit.csail.sdg.parser.CompModule;
 import org.openflexo.ta.alloy.metamodel.AlloyMetaModel;
 import org.openflexo.ta.alloy.model.AlloyModel;
+import org.openflexo.ta.alloy.rm.AlloyModelResource;
 
 /**
  * Alloy Model Builder.
@@ -55,20 +57,8 @@ public class AlloyModelBuilder {
      *
      * @return idk
      */
-    public AlloyModel buildModel(AlloyModelConverter converter, Object resource) {
-        //TODO logic to fill in the data necessary to work not sure which
-        // class to use from org.alloytools as the "Resource" as in "EMF"
+    public AlloyModel buildModel(AlloyModelConverter converter,
+                                 AlloyModelResource resource) {
         return new AlloyModel(converter, resource);
-    }
-
-    /**
-     * Build Model.
-     *
-     * @return idk
-     */
-    public AlloyModel buildModel(AlloyMetaModel metaModel, AlloyModelConverter converter, Object resource) {
-        //TODO logic to fill in the data necessary to work not sure which
-        // class to use from org.alloytools as the "Resource" as in "EMF"
-        return new AlloyModel(metaModel, converter, resource);
     }
 }
