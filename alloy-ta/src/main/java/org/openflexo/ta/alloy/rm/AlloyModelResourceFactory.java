@@ -25,7 +25,6 @@ public class AlloyModelResourceFactory extends TechnologySpecificFlexoResourceFa
 
     static final Logger logger = Logger.getLogger(AlloyModelResourceFactory.class.getPackage().getName());
 
-    // TODO look for this duplicate constant in the code
     public static String ALS_FILE_EXTENSION = ".als";
 
     public AlloyModelResourceFactory() throws ModelDefinitionException {
