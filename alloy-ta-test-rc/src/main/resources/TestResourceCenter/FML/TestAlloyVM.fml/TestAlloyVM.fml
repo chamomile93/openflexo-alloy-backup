@@ -6,7 +6,7 @@
 
 /** DECLARING this URI seems mandatory for the implementation to be able to "load" this file as a "Resource"
 * TODO document when testing, don't forget to "clean test" otherwise only testing a "cached" (jar)? build previously 
- */
+*/
 @URI("http://openflexo.org/alloy-test/FML/TestAlloyVM.fml")
 /*And @VirtualModel annotation does not seems to work
 */
