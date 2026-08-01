@@ -1,0 +1,1 @@
+declare_model_slot_($object.simpleName)=declare_model_slot_($object.simpleName)
