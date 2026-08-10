@@ -149,9 +149,9 @@ public class AlloyTechnologyAdapter extends TechnologyAdapter<AlloyTechnologyAda
 
 	@Override
 	public void activate() {
+		// TODO this doesnt activate and throws exception at startup of maintainer with this TA
 		super.activate();
 		registerClasspathMetaModels();
-		// TODO ?
 	}
 
 	private AlloyMetaModelResource alloyMetaModelResource = null;
