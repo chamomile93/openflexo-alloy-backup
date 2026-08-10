@@ -7,6 +7,9 @@ dependencies {
   // Define here your dependancies
   //implementation 'my.library:artefact-name:1.0.0'
 
+  implementation group: 'org.eclipse.emf', name: 'org.eclipse.emf.ecore', version: '2.36.0'
+  implementation group: 'org.eclipse.emf', name: 'org.eclipse.emf.ecore.xmi', version: '2.37.0'
+
   implementation group: 'fr.inria.gforge.spoon', name: 'spoon-core', version: '9.1.0'
   implementation 'org.alloytools:org.alloytools.alloy.dist:6.2.0'
 

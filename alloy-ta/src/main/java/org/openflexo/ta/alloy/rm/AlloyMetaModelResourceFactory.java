@@ -20,6 +20,7 @@
 
 package org.openflexo.ta.alloy.rm;
 
+import org.openflexo.foundation.resource.ClassLoaderIODelegate;
 import org.openflexo.foundation.resource.FlexoIODelegate;
 import org.openflexo.foundation.resource.FlexoResourceCenter;
 import org.openflexo.foundation.resource.TechnologySpecificFlexoResourceFactory;
@@ -33,79 +34,98 @@ import java.util.logging.Logger;
 
 /**
  * Implementation of ResourceFactory for {@link AlloyMetaModelResource}
- * 
+ *
  * @author chamomile93
  *
  */
 public class AlloyMetaModelResourceFactory
-		extends TechnologySpecificFlexoResourceFactory<AlloyMetaModelResource,
+        extends TechnologySpecificFlexoResourceFactory<AlloyMetaModelResource,
         AlloyMetaModel, AlloyTechnologyAdapter> {
 
-	private static final Logger logger = Logger.getLogger(AlloyMetaModelResourceFactory.class.getPackage().getName());
+    private static final Logger logger = Logger.getLogger(AlloyMetaModelResourceFactory.class.getPackage().getName());
 
-	public static String ECORE_FILE_EXTENSION = ".ecore";
+    public static final String URI_KEY = "URI";
+    public static final String EXTENSION_KEY = "EXTENSION";
+    public static final String PACKAGE_CLASSNAME_KEY = "PACKAGE";
+    public static final String RESOURCE_FACTORY_KEY = "RESOURCE_FACTORY";
 
-	public static final String URI_KEY = "URI";
-	public static final String EXTENSION_KEY = "EXTENSION";
-	public static final String PACKAGE_KEY = "PACKAGE";
-	public static final String RESOURCE_FACTORY_KEY = "RESOURCE_FACTORY";
+    public AlloyMetaModelResourceFactory() throws ModelDefinitionException {
+        super(AlloyMetaModelResource.class);
+    }
 
-	public static String PROPERTY_TYPE = "TYPE";
-	public static String TYPE_METAMODEL = "standard";
-	public static String TYPE_PROFILE = "profile";
-	public static String TYPE_XTEXT = "xtext";
-	public static String PROPERTY_XTEXT_STANDALONE_SETUP = "XTEXT_STANDALONE_SETUP";
+    @Override
+    public AlloyMetaModel makeEmptyResourceData(AlloyMetaModelResource resource) {
+        // TODO
+        return null;
+    }
 
-	public AlloyMetaModelResourceFactory() throws ModelDefinitionException {
-		super(AlloyMetaModelResource.class);
-	}
+    @Override
+    public <I> boolean isValidArtefact(I serializationArtefact, FlexoResourceCenter<I> resourceCenter) {
+        return true;
+    }
 
-	@Override
-	public AlloyMetaModel makeEmptyResourceData(AlloyMetaModelResource resource) {
-		// TODO
-		return null;
-	}
+    @Override
+    public <I> AlloyMetaModelResource registerResource(AlloyMetaModelResource resource, FlexoResourceCenter<I> resourceCenter) {
+        super.registerResource(resource, resourceCenter);
 
-	@Override
-	public <I> boolean isValidArtefact(I serializationArtefact, FlexoResourceCenter<I> resourceCenter) {
-		return true;
-	}
+        logger.info("register resource uri= " + resource.getURI() +
+                " in rC= " + resourceCenter);
+        logger.info("serviceManager= " + resource.getServiceManager());
 
-	@Override
-	public <I> AlloyMetaModelResource registerResource(AlloyMetaModelResource resource, FlexoResourceCenter<I> resourceCenter) {
-		super.registerResource(resource, resourceCenter);
+        TechnologyContextManager<AlloyTechnologyAdapter> technologyContextManager = getTechnologyContextManager(resource.getServiceManager());
 
-		logger.info("register resource uri= " + resource.getURI() +
-			 " in rC= " + resourceCenter);
-		logger.info("serviceManager= " + resource.getServiceManager());
+        AlloyTechnologyAdapter technologyAdapter = getTechnologyAdapter(resource.getServiceManager());
+        technologyAdapter.newMetaModelWasRegistered(resource, resourceCenter);
 
-		TechnologyContextManager<AlloyTechnologyAdapter> technologyContextManager = getTechnologyContextManager(resource.getServiceManager());
+        // Register the resource in the EMFMetaModelRepository of supplied resource center
+        if (resourceCenter != null) {
+            registerResourceInResourceRepository(resource,
+                    technologyContextManager.getTechnologyAdapter().getAlloyMetaModelRepository(resourceCenter));
+        }
 
-		AlloyTechnologyAdapter technologyAdapter = getTechnologyAdapter(resource.getServiceManager());
-		technologyAdapter.newMetaModelWasRegistered(resource, resourceCenter);
+        return resource;
+    }
 
-		// Register the resource in the EMFMetaModelRepository of supplied resource center
-		if (resourceCenter != null) {
-			registerResourceInResourceRepository(resource,
-					technologyContextManager.getTechnologyAdapter().getAlloyMetaModelRepository(resourceCenter));
-		}
+    public <I> AlloyMetaModelResource retrieveResourceFromClassPath(String metaModelName, String metaModelURI, String metaModelExtension,
+                                                                    String pkgClassName, String factoryClassName, TechnologyContextManager<AlloyTechnologyAdapter> technologyContextManager) {
 
-		return resource;
-	}
+        // FlexoResourceCenter<I> resourceCenter = null;
 
-	@Override
-	protected <I> AlloyMetaModelResource initResourceForRetrieving(I serializationArtefact, FlexoResourceCenter<I> resourceCenter)
-			throws ModelDefinitionException, IOException {
-		{
-			logger.warning("Unexpected artefact: " + serializationArtefact);
-			return null;
-		}
-	}
+        AlloyMetaModelResource returned = newInstance(AlloyMetaModelResource.class);
 
-	@Override
-	protected <I> FlexoIODelegate<I> makeFlexoIODelegate(I serializationArtefact, FlexoResourceCenter<I> resourceCenter) {
-		logger.warning("Unexpected artefact: " + serializationArtefact);
-		return null;
-	}
+        // returned.setResourceCenter(resourceCenter);
+        returned.setURI(metaModelURI);
+        returned.setServiceManager(technologyContextManager.getServiceManager());
+        returned.setTechnologyAdapter(technologyContextManager.getTechnologyAdapter());
+        returned.initName(metaModelName);
+
+        returned.setModelFileExtension(metaModelExtension);
+        returned.setPackageClassName(pkgClassName);
+        returned.setResourceFactoryClassName(factoryClassName);
+
+        ClassLoaderIODelegate ioDelegate = newInstance(ClassLoaderIODelegate.class);
+        ioDelegate.setSerializationArtefact(getClass().getClassLoader());
+
+        returned.setIODelegate(ioDelegate);
+
+        registerResource(returned, null);
+        return returned;
+    }
+
+
+    @Override
+    protected <I> AlloyMetaModelResource initResourceForRetrieving(I serializationArtefact, FlexoResourceCenter<I> resourceCenter)
+            throws ModelDefinitionException, IOException {
+        {
+            logger.warning("Unexpected artefact: " + serializationArtefact);
+            return null;
+        }
+    }
+
+    @Override
+    protected <I> FlexoIODelegate<I> makeFlexoIODelegate(I serializationArtefact, FlexoResourceCenter<I> resourceCenter) {
+        logger.warning("Unexpected artefact: " + serializationArtefact);
+        return null;
+    }
 
 }

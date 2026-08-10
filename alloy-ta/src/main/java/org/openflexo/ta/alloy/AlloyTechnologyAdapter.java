@@ -1,5 +1,7 @@
 package org.openflexo.ta.alloy;
 
+import org.eclipse.emf.ecore.impl.EcorePackageImpl;
+import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.openflexo.foundation.fml.FMLCompilationUnit;
 import org.openflexo.foundation.fml.TechnologySpecificType;
 import org.openflexo.foundation.fml.annotations.DeclareModelSlots;
@@ -24,7 +26,7 @@ import java.util.logging.Logger;
  * @author chamomile93
  */
 @DeclareModelSlots({ AlloyModelSlot.class })
-@DeclareResourceFactories({ AlloyModelResourceFactory.class})
+@DeclareResourceFactories({ AlloyModelResourceFactory.class, AlloyMetaModelResourceFactory.class })
 @FML(value = "Alloy Technology Adapter", description = "<html>This technology adapter provides model "
 		+ "federation facilities to manage alloy source code" + "This technology adapter is build on AlloyAnalyzer "
 		+ "technology" + "</html>")
@@ -148,8 +150,34 @@ public class AlloyTechnologyAdapter extends TechnologyAdapter<AlloyTechnologyAda
 	@Override
 	public void activate() {
 		super.activate();
+		registerClasspathMetaModels();
 		// TODO ?
 	}
+
+	private AlloyMetaModelResource alloyMetaModelResource = null;
+
+	public static String ALLOY_MM_NAME = "Alloy Metamodel";
+	public static String ECORE_MM_URI = "http://www.eclipse.org/emf/2002/Ecore";
+	private static String ECORE_MM_EXT = "ecore";
+	private static String ECORE_MM_PKGCLSNAME = EcorePackageImpl.class.getName();
+	private static String ECORE_MM_FACTORYCLSNAME = EcoreResourceFactoryImpl.class.getName();
+
+	private void registerClasspathMetaModels() {
+
+		/**
+		 * TODO probably have to define one metamodel for Alloy in ecore or reuse one as I saw before in a research article
+		 * as it stands I don't know what this do ? does it retrieve a representation in ecore ? or calculate one in ecore ?
+		 * what is the representation ?
+ 		 */
+
+		alloyMetaModelResource = getAlloyMetaModelResourceFactory().retrieveResourceFromClassPath(ALLOY_MM_NAME, ECORE_MM_URI, ECORE_MM_EXT,
+				ECORE_MM_PKGCLSNAME, ECORE_MM_FACTORYCLSNAME, getTechnologyContextManager());
+	}
+
+	private AlloyMetaModelResourceFactory getAlloyMetaModelResourceFactory() {
+		return getResourceFactory(AlloyMetaModelResourceFactory.class);
+	}
+
 
 	@Override
 	public <T extends TechnologySpecificType<AlloyTechnologyAdapter>> T instantiateType(

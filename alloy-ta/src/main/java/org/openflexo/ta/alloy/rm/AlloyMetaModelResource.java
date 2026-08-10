@@ -48,7 +48,9 @@ import org.openflexo.foundation.resource.ResourceData;
 import org.openflexo.foundation.resource.ResourceLoadingCancelledException;
 import org.openflexo.foundation.technologyadapter.FlexoMetaModelResource;
 import org.openflexo.foundation.technologyadapter.TechnologyAdapterResource;
+import org.openflexo.pamela.annotations.Getter;
 import org.openflexo.pamela.annotations.ModelEntity;
+import org.openflexo.pamela.annotations.Setter;
 import org.openflexo.ta.alloy.AlloyTechnologyAdapter;
 import org.openflexo.ta.alloy.AlloyTechnologyContextManager;
 import org.openflexo.ta.alloy.metamodel.AlloyMetaModel;
@@ -64,10 +66,7 @@ import java.util.logging.Logger;
  *
  */
 @ModelEntity(isAbstract = true)
-//@Imports({ @Import(ECoreMetaModelResource.class), @Import(JarBasedMetaModelResource.class) })
 public interface AlloyMetaModelResource extends FlexoMetaModelResource<AlloyModel, AlloyMetaModel, AlloyTechnologyAdapter>, TechnologyAdapterResource<AlloyMetaModel, AlloyTechnologyAdapter> {
-
-//	public static final String PACKAGE = "package";
 
     /**
      * Return the effective metamodel addressed by this resource, its {@link ResourceData}
@@ -84,32 +83,19 @@ public interface AlloyMetaModelResource extends FlexoMetaModelResource<AlloyMode
     @Override
     AlloyMetaModel getMetaModelData();
 
-    /**
-     * Creates a new ModelResource, for EMF, MetaModel decides wich type of serialization you should use!
-     *
-     * @param flexoIODelegate
-     * @return
-     */
-//	Resource createEMFModelResource(FlexoIODelegate<?> flexoIODelegate);
-
-    /**
-     * Getter of Package MetaModel.
-     *
-     * @return
-     */
-//	@Getter(value = PACKAGE, ignoreType = true)
-//	EPackage getPackage();
-
-    /**
-     * Setter of Package MetaModel.
-     */
-//	@Setter(value = PACKAGE)
-//	void setPackage(EPackage ePackage);
-
+    @Getter(AlloyMetaModelResourceFactory.EXTENSION_KEY)
     String getModelFileExtension();
 
+    @Setter(AlloyMetaModelResourceFactory.EXTENSION_KEY)
+    void setModelFileExtension(String modelFileExtension);
+
+    @Setter(value = AlloyMetaModelResourceFactory.PACKAGE_CLASSNAME_KEY)
+    void setPackageClassName(String ePackage);
+
+    @Setter(AlloyMetaModelResourceFactory.RESOURCE_FACTORY_KEY)
+    void setResourceFactoryClassName(String resourceFactory);
+
     AlloyModelResource createAlloyModelResource(FlexoIODelegate<?> ioDelegate);
-//	Resource.Factory getEMFResourceFactory();
 
     abstract class AlloyMetaModelResourceImpl extends FlexoResourceImpl<AlloyMetaModel> implements AlloyMetaModelResource {
 
@@ -152,7 +138,7 @@ public interface AlloyMetaModelResource extends FlexoMetaModelResource<AlloyMode
 
         /**
          * Generic method used to retrieve in this resource an object with supplied objectIdentifier, userIdentifier, and type identifier<br>
-         *
+         * <p>
          * Note that for certain resources, some parameters might not be used (for example userIdentifier or typeIdentifier)
          *
          * @param objectIdentifier
@@ -220,7 +206,5 @@ public interface AlloyMetaModelResource extends FlexoMetaModelResource<AlloyMode
         public AlloyTechnologyContextManager getTechnologyContextManager() {
             return (AlloyTechnologyContextManager) performSuperGetter(TECHNOLOGY_CONTEXT_MANAGER);
         }
-
     }
-
 }
