@@ -10,6 +10,7 @@ import org.openflexo.foundation.fml.annotations.FML;
 import org.openflexo.foundation.ontology.technologyadapter.FlexoOntologyTechnologyContextManager;
 import org.openflexo.foundation.resource.FlexoResourceCenter;
 import org.openflexo.foundation.resource.FlexoResourceCenterService;
+import org.openflexo.foundation.resource.ITechnologySpecificFlexoResourceFactory;
 import org.openflexo.foundation.technologyadapter.SpecificTypeInfo;
 import org.openflexo.foundation.technologyadapter.TechnologyAdapter;
 import org.openflexo.foundation.technologyadapter.TechnologyAdapterBindingFactory;
@@ -19,6 +20,7 @@ import org.openflexo.ta.alloy.fml.binding.AlloyBindingFactory;
 import org.openflexo.ta.alloy.rm.*;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -172,6 +174,11 @@ public class AlloyTechnologyAdapter extends TechnologyAdapter<AlloyTechnologyAda
 
 		alloyMetaModelResource = getAlloyMetaModelResourceFactory().retrieveResourceFromClassPath(ALLOY_MM_NAME, ECORE_MM_URI, ECORE_MM_EXT,
 				ECORE_MM_PKGCLSNAME, ECORE_MM_FACTORYCLSNAME, getTechnologyContextManager());
+	}
+
+	@Override
+	public List<ITechnologySpecificFlexoResourceFactory<?, ?, ?>> getResourceFactories() {
+		return super.getResourceFactories();
 	}
 
 	private AlloyMetaModelResourceFactory getAlloyMetaModelResourceFactory() {
