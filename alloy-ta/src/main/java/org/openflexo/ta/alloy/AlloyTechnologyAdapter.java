@@ -151,9 +151,22 @@ public class AlloyTechnologyAdapter extends TechnologyAdapter<AlloyTechnologyAda
 
 	@Override
 	public void activate() {
-		// TODO this doesnt activate and throws exception at startup of maintainer with this TA
+		logger.finest("START AlloyTechnologyAdapter.activate()");
+		/**
+		 * TODO this doesnt seem to activate correctly and throws exception at startup of maintainer with this TA
+		 * one reason seems to be the MetaModelResourceFactory, see comments elsewhere
+		 */
+		logger.finest("AlloyTechnologyAdapter.super.activate()");
 		super.activate();
+		logger.finest("AlloyTechnologyAdapter.super.activate() done");
+		logger.finest("AlloyTechnologyAdapter.activate() registerClassPathMetaModels");
+		/**
+		 * TODO forgot why we need to register "MetaModels"
+		 * don't recall having defined a metamodel for Alloy grammar
+		 */
 		registerClasspathMetaModels();
+		logger.finest("AlloyTechnologyAdapter.activate() registerClassPathMetaModels done");
+		logger.finest("END AlloyTechnologyAdapter.activate()");
 	}
 
 	private AlloyMetaModelResource alloyMetaModelResource = null;
@@ -165,15 +178,24 @@ public class AlloyTechnologyAdapter extends TechnologyAdapter<AlloyTechnologyAda
 	private static String ECORE_MM_FACTORYCLSNAME = EcoreResourceFactoryImpl.class.getName();
 
 	private void registerClasspathMetaModels() {
+		logger.finest("START AlloyTechnologyAdapter.registerClassPathMetaModels()");
 
 		/**
 		 * TODO probably have to define one metamodel for Alloy in ecore or reuse one as I saw before in a research article
 		 * as it stands I don't know what this do ? does it retrieve a representation in ecore ? or calculate one in ecore ?
 		 * what is the representation ?
  		 */
+		logger.finest("AlloyTechnologyAdapter.registerClassPathMetaModels() alloyMetaModelResource=" + alloyMetaModelResource);
 
+		logger.finest("START AlloyTechnologyAdapter.registerClassPathMetaModels() retrieveResourceFromClassPath with  factoryClassName = " + ECORE_MM_FACTORYCLSNAME + " ALLOY_MM_NAME= " + ALLOY_MM_NAME + " ECORE_MM_URI= " + ECORE_MM_URI + " ECORE_MM_EXT= " + ECORE_MM_EXT + " ECORE_MM_PKGCLSNAME= " + ECORE_MM_PKGCLSNAME + " getTechnologyContextManager=" + getTechnologyContextManager().getClass().getSimpleName());
 		alloyMetaModelResource = getAlloyMetaModelResourceFactory().retrieveResourceFromClassPath(ALLOY_MM_NAME, ECORE_MM_URI, ECORE_MM_EXT,
 				ECORE_MM_PKGCLSNAME, ECORE_MM_FACTORYCLSNAME, getTechnologyContextManager());
+
+		logger.finest("END AlloyTechnologyAdapter.registerClassPathMetaModels() retrieveResourceFromClassPath  with  factoryClassName = " + ECORE_MM_FACTORYCLSNAME + " ALLOY_MM_NAME= " + ALLOY_MM_NAME + " ECORE_MM_URI= " + ECORE_MM_URI + " ECORE_MM_EXT= " + ECORE_MM_EXT + " ECORE_MM_PKGCLSNAME= " + ECORE_MM_PKGCLSNAME + " getTechnologyContextManager=" + getTechnologyContextManager().getClass().getSimpleName());
+
+		logger.finest("AlloyTechnologyAdapter.registerClassPathMetaModels() alloyMetaModelResource=" + alloyMetaModelResource);
+
+		logger.finest("END AlloyTechnologyAdapter.registerClassPathMetaModels()");
 	}
 
 	@Override
