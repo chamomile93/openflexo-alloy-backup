@@ -1,5 +1,0 @@
-use org.openflexo.ta.alloy.AlloyModelSlot as ALLOY;
-
-model EmptyMapping {
-	
-}

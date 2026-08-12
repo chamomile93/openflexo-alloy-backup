@@ -8,7 +8,7 @@ buildscript {
 	}
 }
 
-// TODO fix this with a better way
+// TODO fix with a better way
 configurations {
     // For compiled/binary dependencies
     compileLibs
