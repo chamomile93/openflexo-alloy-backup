@@ -1,0 +1,10 @@
+dependencies {
+    implementation project(':alloy-ta')
+    implementation flexoFoundation()
+
+    implementation testUtils()
+    implementation flexoFoundationTest()
+
+    // Test resource center
+    testRuntimeOnly project(':alloy-ta-test-rc')
+}

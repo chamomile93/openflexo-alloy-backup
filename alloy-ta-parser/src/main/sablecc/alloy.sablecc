@@ -1,0 +1,21 @@
+Package org.openflexo.ta.dsl.parser;
+
+Helpers
+ upper_case = ['A' .. 'Z'] | [0x00c0 .. 0x00dd] | 0x20ac;
+ lower_case = ['a' .. 'z'] | [0x00e0 .. 0x00fd] | 0x20ac;
+ digit = ['0'..'9'];
+ letter = upper_case | lower_case | '_' ;
+
+Tokens
+ kw_module = 'module';
+ kw_this = 'this';
+ comma = ',';
+ slash = '/';
+ identifier = letter (letter | digit)* ;
+
+Productions
+ alloy_module = module_decl? ;
+ module_decl = kw_module qual_name module_decl_params? ;
+ module_decl_params = {one} identifier | {more} identifier comma module_decl_params ;
+ qual_name = {simple} identifier | {qualified} kw_this slash identifier qual_name_tail;
+ qual_name_tail = {more} slash identifier qual_name_tail | {empty};
