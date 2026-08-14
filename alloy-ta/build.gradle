@@ -1,0 +1,22 @@
+dependencies {
+  // openflexo dep
+  implementation project(':alloy-ta-parser')
+  implementation flexoFoundation()
+  //implementation flexoOntology()
+  // external dep
+  // Define here your dependancies
+  //implementation 'my.library:artefact-name:1.0.0'
+  // Source: https://mvnrepository.com/artifact/org.alloytools/org.alloytools.alloy.dist
+  implementation("org.alloytools:org.alloytools.alloy.dist:6.2.0")
+
+  // testing dep
+  testImplementation flexoFoundationTest()
+
+  // A particular resource center can be defined here
+  // If it always required to be present at run-time
+  //runtime project(‘:dsl-ta-rc')
+
+  // Test resource center, if required
+  // testRuntime project(‘:dsl-ta-test-rc')
+
+}

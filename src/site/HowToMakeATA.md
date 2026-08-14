@@ -67,7 +67,7 @@ You should structure it around the following packages:
 
 1) `alloy` containing
 
-    1) The declaring class `AlloyTechnologyAdapter` defining the TA. It declares the available model slots, custom types and factories.
+    1) The declaring class `AlloyDSLTechnologyAdapter` defining the TA. It declares the available model slots, custom types and factories.
 
     2) The various model slots, the `YyAlloyModelSlot` interfaces declaring the accessible TA concepts and the actions to manipulate them.
 
@@ -84,10 +84,10 @@ identification. <!-- TODO idf -->
 
 ## Details
 
-### The declaring class `AlloyTechnologyAdapter`
+### The declaring class `AlloyDSLTechnologyAdapter`
 
 First you must declare your TA by extending the `TechnologyAdapter`
-class with the generic parameter `AlloyTechnologyAdapter`.
+class with the generic parameter `AlloyDSLTechnologyAdapter`.
 
 This class must declare the various model slots types, specific
 custom types and resource factories using FML annotations. A model

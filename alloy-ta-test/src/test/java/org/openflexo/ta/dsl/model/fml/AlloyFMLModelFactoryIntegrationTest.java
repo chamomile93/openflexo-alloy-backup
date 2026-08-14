@@ -38,16 +38,53 @@
 
 package org.openflexo.ta.dsl.model.fml;
 
+import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.openflexo.foundation.fml.FMLTechnologyAdapter;
+import org.openflexo.foundation.resource.FlexoResourceCenterService;
+import org.openflexo.foundation.technologyadapter.TechnologyAdapterService;
 import org.openflexo.foundation.test.fml.AbstractModelFactoryIntegrationTestCase;
 import org.openflexo.logging.FlexoLogger;
 import org.openflexo.test.OrderedRunner;
+import org.openflexo.test.TestOrder;
 
 import java.util.logging.Logger;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 @RunWith(OrderedRunner.class)
 public class AlloyFMLModelFactoryIntegrationTest extends AbstractModelFactoryIntegrationTestCase {
 
 	private static final Logger logger = FlexoLogger.getLogger(AlloyFMLModelFactoryIntegrationTest.class.getPackage().getName());
 
+	/**
+	 * Instanciate test ServiceManager
+	 */
+	@Test
+	@TestOrder(1)
+	public void initializeServiceManager() {
+		log("initializeServiceManager()");
+		instanciateTestServiceManager();
+
+		assertNotNull(serviceManager.getService(FlexoResourceCenterService.class));
+		assertNotNull(serviceManager.getService(TechnologyAdapterService.class));
+
+		TechnologyAdapterService taService = serviceManager.getTechnologyAdapterService();
+		assertEquals(taService, serviceManager.getService(TechnologyAdapterService.class));
+
+		assertNotNull(taService.getTechnologyAdapter(AlloyTechnologyAdapter.class));
+	}
+
+	/**
+	 * Check the presence of {@link FMLTechnologyAdapter}, instanciate FMLModelFactory with this TA
+	 */
+	@Test
+	@TestOrder(2)
+	public void checkAlloyFMLTechnologyAdapter() {
+		log("checkAlloyFMLTechnologyAdapter()");
+
+		testVirtualModelModelFactoryWithTechnologyAdapter(
+				serviceManager.getTechnologyAdapterService().getTechnologyAdapter(AlloyTechnologyAdapter.class));
+	}
 }
